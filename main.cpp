@@ -32,7 +32,6 @@ int main()
         {
             for (int j{0}; j < n - i - 1; ++j)
             {
-                std::cout << '(' << n - 1 - i << ", " << j << ')' << std::endl;
                 if (num.at(n - 1 - i).at(j) != 0)
                     hey = true;
             }
