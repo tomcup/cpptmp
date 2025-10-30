@@ -7,12 +7,6 @@ int main()
     int n;
     std::cin >> n;
 
-    if (n == 1)
-    {
-        std::cout << "NONE" << std::endl;
-        return 0;
-    }
-
     std::vector<std::vector<int>> num;
     num.resize(n);
 
@@ -41,7 +35,7 @@ int main()
 
             if (s)
             {
-                for (int k{0}; k < n; ++k) // 列最大
+                for (int k{0}; k < n; ++k) // 列最小
                 {
                     if (k == i)
                         continue;
