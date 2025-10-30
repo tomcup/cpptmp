@@ -5,33 +5,42 @@
 
 int main()
 {
-    int n;
-    std::cin >> n;
-
-    std::vector<std::string> num;
-    num.resize(n);
-
-    for (int i{0}; i < n; ++i)
+    int T;
+    std::cin >> T;
+    while (T)
     {
-        std::cin >> num.at(i);
-    }
+        --T;
 
-    std::vector<int> count;
-    count.resize(10);
+        int n;
+        std::cin >> n;
 
-    for (std::string i : num)
-    {
-        for (char j : i)
+        std::vector<std::vector<int>> num;
+        num.resize(n);
+
+        for (int i{0}; i < n; ++i)
         {
-            count.at(j - '0') += 1;
+            num.at(i).resize(n);
+            for (int j{0}; j < n; ++j)
+            {
+                std::cin >> num.at(i).at(j);
+            }
         }
-    }
 
-    std::cout << *std::max_element(count.begin(), count.end()) << ":";
+        bool hey{};
 
-    for (int i{0}; i < 10; ++i)
-    {
-        if (count.at(i) == *std::max_element(count.begin(), count.end()))
-            std::cout << ' ' << i;
+        for (int i{0}; i < n; ++i)
+        {
+            for (int j{0}; j < n - i - 1; ++j)
+            {
+                std::cout << '(' << n - 1 - i << ", " << j << ')' << std::endl;
+                if (num.at(n - 1 - i).at(j) != 0)
+                    hey = true;
+            }
+        }
+
+        if (hey)
+            std::cout << "NO" << std::endl;
+        else
+            std::cout << "YES" << std::endl;
     }
 }
