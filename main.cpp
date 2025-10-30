@@ -1,40 +1,39 @@
 #include <iostream>
-#include <algorithm>
+#include <numeric>
 #include <vector>
 
 int main()
 {
-    std::vector<unsigned> cases;
-    cases.push_back(0);
-
-    unsigned n;
+    int n;
     std::cin >> n;
 
-    unsigned s;
-    bool status;
-
-    for (unsigned i{0}; i < n; ++i)
+    std::vector<std::vector<int>> vec;
+    vec.resize(n);
+    for (int i{0}; i < n; ++i)
     {
-        std::cin >> s;
-
-        status = false;
-        for (unsigned j{0}; j < cases.size(); ++j)
+        vec.at(i).resize(n);
+        for (int j{0}; j < n; ++j)
         {
-            if (cases.at(j) + s > 100)
-                continue;
-            else
-            {
-                cases.at(j) += s;
-                status = true;
-                std::cout << s << ' ' << j + 1 << std::endl;
-                break;
-            }
-        }
-        if (!status)
-        {
-            cases.push_back(s);
-            std::cout << s << ' ' << cases.size() << std::endl;
+            std::cin >> vec.at(i).at(j);
         }
     }
-    std::cout << cases.size() << std::endl;
+
+    if (n == 1)
+    {
+        std::cout << vec.at(0).at(0) << 0 << std::endl;
+        return 0;
+    }
+
+    int outside{}, inside{};
+
+    outside += std::accumulate(vec.at(0).begin(), vec.at(0).end(), 0) + std::accumulate(vec.at(n - 1).begin(), vec.at(n - 1).end(), 0);
+
+    for (int i{1}; i < n - 1; ++i)
+    {
+        outside += vec.at(i).at(0) + vec.at(i).at(n - 1);
+        inside += std::accumulate(vec.at(i).begin() + 1, vec.at(i).end() - 1, 0);
+    }
+
+    std::cout << outside << ' ' << inside << std::endl;
+    return 0;
 }
