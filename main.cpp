@@ -1,25 +1,40 @@
 #include <iostream>
 #include <algorithm>
-#include <array>
+#include <vector>
 
 int main()
 {
-    std::array<int, 4> num;
-    for (int i{0}; i < 4; ++i)
+    std::vector<unsigned> cases;
+    cases.push_back(0);
+
+    unsigned n;
+    std::cin >> n;
+
+    unsigned s;
+    bool status;
+
+    for (unsigned i{0}; i < n; ++i)
     {
-        num.at(i) = std::cin.get() - '0';
+        std::cin >> s;
+
+        status = false;
+        for (unsigned j{0}; j < cases.size(); ++j)
+        {
+            if (cases.at(j) + s > 100)
+                continue;
+            else
+            {
+                cases.at(j) += s;
+                status = true;
+                std::cout << s << ' ' << j + 1 << std::endl;
+                break;
+            }
+        }
+        if (!status)
+        {
+            cases.push_back(s);
+            std::cout << s << ' ' << cases.size() << std::endl;
+        }
     }
-
-    for (int &i : num)
-    {
-        i = (i + 9) % 10;
-    }
-
-    std::swap(num.at(1), num.at(3));
-    std::swap(num.at(0), num.at(2));
-
-    std::cout << "The encrypted number is ";
-    for (int i : num)
-        std::cout << i;
-    std::cout << std::endl;
+    std::cout << cases.size() << std::endl;
 }
