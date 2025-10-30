@@ -1,35 +1,37 @@
 #include <iostream>
-#include <numeric>
+#include <algorithm>
 #include <vector>
+#include <string>
 
 int main()
 {
     int n;
     std::cin >> n;
 
-    std::vector<std::vector<int>> vec;
-    vec.resize(n);
+    std::vector<std::string> num;
+    num.resize(n);
+
     for (int i{0}; i < n; ++i)
     {
-        vec.at(i).resize(n);
-        for (int j{0}; j < n; ++j)
+        std::cin >> num.at(i);
+    }
+
+    std::vector<int> count;
+    count.resize(10);
+
+    for (std::string i : num)
+    {
+        for (char j : i)
         {
-            std::cin >> vec.at(i).at(j);
+            count.at(j - '0') += 1;
         }
     }
 
-    for (int i{0}; i < n; ++i)
-    {
-        vec.at(i).at(n - i - 1) = 0;
-        vec.at(i).at(n - 1) = 0;
-        vec.at(n - 1).at(i) = 0;
-    }
+    std::cout << *std::max_element(count.begin(), count.end()) << ":";
 
-    int num{0};
-    for (auto i : vec)
+    for (int i{0}; i < 10; ++i)
     {
-        num += std::accumulate(i.begin(), i.end(), 0);
+        if (count.at(i) == *std::max_element(count.begin(), count.end()))
+            std::cout << ' ' << i;
     }
-
-    std::cout << num << std::endl;
 }
