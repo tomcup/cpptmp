@@ -1,62 +1,25 @@
 #include <iostream>
 #include <algorithm>
-#include <vector>
+#include <array>
 
 int main()
 {
-    int n;
-    std::cin >> n;
-
-    if (n == 1)
+    std::array<int, 4> num;
+    for (int i{0}; i < 4; ++i)
     {
-        std::cout << "NONE" << std::endl;
-        return 0;
+        num.at(i) = std::cin.get() - '0';
     }
 
-    std::vector<std::vector<int>> num;
-    num.resize(n);
-
-    for (int i{0}; i < n; ++i)
+    for (int &i : num)
     {
-        num.at(i).resize(n);
-        for (int j{0}; j < n; ++j)
-        {
-            std::cin >> num.at(i).at(j);
-        }
+        i = (i + 9) % 10;
     }
 
-    bool s{true};
-    for (int i{0}; i < n; ++i) // 行
-    {
-        for (int j{0}; j < n; ++j) // 列
-        {
-            s = true;
-            for (int k{0}; k < n; ++k) // 行最大
-            {
-                if (k == j)
-                    continue;
-                if (num.at(i).at(k) >= num.at(i).at(j))
-                    s = false;
-            }
+    std::swap(num.at(1), num.at(3));
+    std::swap(num.at(0), num.at(2));
 
-            if (s)
-            {
-                for (int k{0}; k < n; ++k) // 列最大
-                {
-                    if (k == i)
-                        continue;
-                    if (num.at(k).at(j) <= num.at(i).at(j))
-                        s = false;
-                }
-                if (s)
-                {
-                    std::cout << i << ' ' << j << std::endl;
-                    return 0;
-                }
-            }
-        }
-    }
-
-    std::cout << "NONE" << std::endl;
-    return 0;
+    std::cout << "The encrypted number is ";
+    for (int i : num)
+        std::cout << i;
+    std::cout << std::endl;
 }
