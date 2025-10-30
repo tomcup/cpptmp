@@ -7,33 +7,50 @@ int main()
     int n;
     std::cin >> n;
 
-    std::vector<std::vector<int>> vec;
-    vec.resize(n);
+    std::vector<std::vector<int>> num;
+    num.resize(n);
+
     for (int i{0}; i < n; ++i)
     {
-        vec.at(i).resize(n);
+        num.at(i).resize(n);
         for (int j{0}; j < n; ++j)
         {
-            std::cin >> vec.at(i).at(j);
+            std::cin >> num.at(i).at(j);
         }
     }
 
-    if (n == 1)
+    bool s{true};
+    for (int i{0}; i < n; ++i) // 行
     {
-        std::cout << vec.at(0).at(0) << 0 << std::endl;
-        return 0;
+        for (int j{0}; j < n; ++j) // 列
+        {
+            s = true;
+            for (int k{0}; k < n; ++k) // 行最大
+            {
+                if (k == j)
+                    continue;
+                if (num.at(i).at(k) > num.at(i).at(j))
+                    s = false;
+            }
+
+            if (s)
+            {
+                for (int k{0}; k < n; ++k) // 列最小
+                {
+                    if (k == i)
+                        continue;
+                    if (num.at(k).at(j) < num.at(i).at(j))
+                        s = false;
+                }
+                if (s)
+                {
+                    std::cout << i << ' ' << j << std::endl;
+                    return 0;
+                }
+            }
+        }
     }
 
-    int outside{}, inside{};
-
-    outside += std::accumulate(vec.at(0).begin(), vec.at(0).end(), 0) + std::accumulate(vec.at(n - 1).begin(), vec.at(n - 1).end(), 0);
-
-    for (int i{1}; i < n - 1; ++i)
-    {
-        outside += vec.at(i).at(0) + vec.at(i).at(n - 1);
-        inside += std::accumulate(vec.at(i).begin() + 1, vec.at(i).end() - 1, 0);
-    }
-
-    std::cout << outside << ' ' << inside << std::endl;
+    std::cout << "NONE" << std::endl;
     return 0;
 }
